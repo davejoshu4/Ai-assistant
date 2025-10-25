@@ -1,0 +1,11 @@
+# Ignore environment files and sensitive data
+.env
+*.env
+
+# Node dependencies
+node_modules/
+
+# Build and log files
+dist/
+.DS_Store
+*.log
