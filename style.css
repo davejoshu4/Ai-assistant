@@ -1,0 +1,547 @@
+/* 🌑 General Page Setup */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0d0d0d;
+  color: #f5f5f5;
+  font-family: "Segoe UI", Arial, sans-serif;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 🧭 App Container Layout */
+.app-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background-color: #0d0d0d;
+  color: white;
+}
+
+/* 🧭 Sidebar */
+.sidebar {
+  width: 260px;
+  background-color: #141414;
+  border-right: 1px solid #222;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.sidebar-header h2 {
+  color: #00bfa6;
+  font-size: 20px;
+}
+
+.sidebar-header button {
+  background-color: #00bfa6;
+  border: none;
+  color: white;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.sidebar-header button:hover {
+  background-color: #009e89;
+}
+
+/* 🔍 Search Bar */
+.search-box {
+  margin-bottom: 15px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  background-color: #1e1e1e;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+}
+
+/* 💬 Chat List */
+.chat-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.chat-list li {
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #1a1a1a;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.chat-list li:hover {
+  background-color: #242424;
+}
+
+.chat-list li.active {
+  background-color: #00bfa6;
+  color: black;
+}
+
+/* 🌌 Main Chat Area */
+.main-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 🌟 Floating Header (Sticky Centered) */
+.site-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: #0d0d0d;
+  padding: 20px 0;
+  text-align: center;
+  z-index: 10;
+}
+
+.site-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.site-header h1 span {
+  color: #00bfa6;
+}
+
+/* 💬 Chat Container */
+.chat-container {
+  width: 650px;
+  max-width: 90%;
+  background: #171717;
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  height: 80vh;
+}
+
+/* 🗨️ Chat Box */
+.chat-box {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px 0;
+  scroll-behavior: smooth;
+}
+
+/* 🧑 User Message */
+.message.user {
+  align-self: flex-end;
+  background-color: #00bfa6;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 18px 18px 0 18px;
+  max-width: 70%;
+  font-size: 15px;
+  box-shadow: 0 0 12px rgba(0, 191, 166, 0.3);
+}
+
+/* 🤖 Assistant Message */
+.message.assistant {
+  align-self: flex-start;
+  background-color: #1f1f1f;
+  color: #f1f1f1;
+  padding: 10px 16px;
+  border-radius: 18px 18px 18px 0;
+  max-width: 70%;
+  font-size: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+/* 🧾 Input Area */
+.input-area {
+  display: flex;
+  gap: 10px;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid #222;
+  transition: box-shadow 0.3s ease;
+}
+
+/* 🌟 Glow when active */
+.input-area:focus-within {
+  box-shadow: 0 0 8px 2px rgba(0, 191, 166, 0.5);
+}
+
+.input-area input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background-color: #0d0d0d;
+  color: #fff;
+  font-size: 15px;
+}
+
+.input-area input::placeholder {
+  color: #777;
+}
+
+.input-area button {
+  background-color: #00bfa6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.input-area button:hover {
+  background-color: #009e89;
+  box-shadow: 0 0 10px #00bfa6;
+}
+
+/* 📜 Scrollbar Styling */
+.chat-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+.chat-box::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* 📱 Responsive - Sidebar Hamburger Menu */
+@media (max-width: 900px) {
+  .sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .hamburger {
+    display: block;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: transparent;
+    border: none;
+    color: #00bfa6;
+    font-size: 26px;
+    cursor: pointer;
+  }
+
+  .chat-container {
+    width: 90%;
+    height: 85vh;
+    padding: 16px;
+  }
+}
+
+/* ❌ Delete Chat Button — matches JDG AI dark style */
+.delete-btn {
+  background: linear-gradient(135deg, #1a1a1a, #262626);
+  color: #ffb84d;
+  border: 1px solid rgba(255, 184, 77, 0.4);
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.3px;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 6px rgba(255, 184, 77, 0.3);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+/* Hover glow effect */
+.delete-btn:hover {
+  background: linear-gradient(135deg, #ffb84d, #ff9900);
+  color: #fff;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 12px rgba(255, 184, 77, 0.6);
+}
+
+/* Ripple animation on click */
+.delete-btn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: width 0.3s ease, height 0.3s ease, opacity 0.5s ease;
+}
+
+.delete-btn:active::after {
+  width: 180%;
+  height: 180%;
+  opacity: 1;
+}
+
+/* Subtle breathing glow */
+@keyframes yellowPulse {
+  0% { box-shadow: 0 0 4px rgba(255, 184, 77, 0.3); }
+  50% { box-shadow: 0 0 10px rgba(255, 184, 77, 0.6); }
+  100% { box-shadow: 0 0 4px rgba(255, 184, 77, 0.3); }
+}
+
+.delete-btn.glow {
+  animation: yellowPulse 1.8s infinite;
+}
+
+/* Clear Chats button — refined neon style */
+.clear-btn {
+  background: linear-gradient(135deg, #1a1a1a, #262626);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 107, 107, 0.4);
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.3px;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 6px rgba(255, 107, 107, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover glow + ripple effect */
+.clear-btn:hover {
+  background: linear-gradient(135deg, #ff3b3b, #d22);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(255, 80, 80, 0.6);
+  transform: translateY(-2px) scale(1.04);
+}
+
+/* Ripple animation when clicked */
+.clear-btn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: width 0.3s ease, height 0.3s ease, opacity 0.5s ease;
+}
+
+.clear-btn:active::after {
+  width: 180%;
+  height: 180%;
+  opacity: 1;
+}
+
+/* Subtle breathing glow when idle */
+@keyframes softPulse {
+  0% { box-shadow: 0 0 4px rgba(255, 107, 107, 0.2); }
+  50% { box-shadow: 0 0 10px rgba(255, 107, 107, 0.4); }
+  100% { box-shadow: 0 0 4px rgba(255, 107, 107, 0.2); }
+}
+
+.clear-btn.glow {
+  animation: softPulse 1.8s infinite;
+}
+
+/* 🧭 Center the JDG AI logo */
+.centered-logo {
+  justify-content: center !important;
+  text-align: center;
+  margin-bottom: 10px; /* reduced from 20px */
+  margin-top: 5px;
+  line-height: 1;
+}
+
+
+.centered-logo h2 {
+  color: #00bfa6;
+  font-size: 24px;
+  letter-spacing: 1px;
+  font-weight: 800;
+  line-height: 1.1; /* keeps it compact */
+}
+
+
+
+/* 🟢 New Chat Button — matches neon style */
+.new-chat-btn {
+  width: 100%;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #00bfa6, #00a896);
+  color: #fff;
+  border: 1px solid rgba(0, 191, 166, 0.4);
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  letter-spacing: 0.3px;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 6px rgba(0, 191, 166, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover and click effects */
+.new-chat-btn:hover {
+  background: linear-gradient(135deg, #00e0b8, #00bfa6);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 12px rgba(0, 255, 212, 0.6);
+}
+
+.new-chat-btn:active {
+  transform: scale(0.96);
+}
+
+/* Ripple click animation */
+.new-chat-btn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: width 0.3s ease, height 0.3s ease, opacity 0.5s ease;
+}
+
+.new-chat-btn:active::after {
+  width: 180%;
+  height: 180%;
+  opacity: 1;
+}
+
+
+/* 📌 Sidebar pin button layout */
+.pin-btn {
+  width: 100%;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #2b2b2b, #1c1c1c);
+  color: #ffbf00;
+  border: 1px solid #ffbf00;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 0 5px rgba(255, 191, 0, 0.25);
+}
+
+.pin-btn:hover {
+  background: linear-gradient(135deg, #ffd000, #ffbf00);
+  color: #111;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 200, 0, 0.5);
+}
+
+.pin-btn:active {
+  transform: scale(0.96);
+}
+
+/* 🔔 Centered Notification Container (complete & simple) */
+.notification-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;                /* ← CENTER it horizontally */
+  transform: translateX(-50%);
+  z-index: 2000;
+  pointer-events: none;     /* notifications don't block clicks */
+  width: auto;
+  max-width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Single notification bubble */
+.notification {
+  pointer-events: auto;     /* let user click to dismiss */
+  background: linear-gradient(135deg,#222,#171717);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.04);
+  font-weight: 600;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  opacity: 1;
+  transition: transform .2s ease, opacity .25s ease;
+}
+
+/* exit animation helper */
+.notification.hide {
+  transform: translateY(-6px);
+  opacity: 0;
+}

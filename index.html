@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JDG AI</title>
+  <link rel="stylesheet" href="style.css" /> 
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+
+<body>
+  <div class="app-container">
+    
+    <!-- 🧭 SIDEBAR -->
+    <div class="sidebar">
+  <div class="sidebar-header centered-logo">
+    <h2>JDG <span>AI</span></h2>
+  </div>
+
+  <button id="new-chat-btn" class="new-chat-btn">＋ New Chat</button>
+  <button id="pin-chat-btn" class="pin-btn">📌 Pin Chat</button>
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="Search chats..." />
+      </div>
+      <ul id="chat-list" class="chat-list"></ul>
+      <button id="delete-chat-btn" class="delete-btn glow">❌ Delete Chat</button>
+      <button id="clear-chats-btn" class="clear-btn">🗑️ Clear Chats</button>
+    </div>
+
+    <!-- 💬 MAIN CHAT AREA -->
+    <div class="main-area">
+      <div class="site-header">
+        <h1>AI <span>Assistant</h1>
+      </div>
+
+      <div class="chat-container">
+        <div id="chat-box" class="chat-box"></div>
+        <div class="input-area">
+          <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off" />
+          <button id="send-btn">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="notifications" class="notification-container"></div>
+  
+  <!-- Sentiment.js with Fallback -->
+  <script src="https://cdn.jsdelivr.net/npm/sentiment@5.0.2/build/sentiment.min.js"></script>
+  <script>
+    if (typeof Sentiment === "undefined") {
+      console.warn("⚠️ Sentiment.js failed to load — switching to local fallback.");
+      const script = document.createElement("script");
+      script.src = "sentiment.min.js"; // local version
+      document.head.appendChild(script);
+    } else {
+      console.log("✅ Sentiment.js loaded successfully!");
+    }
+  </script>
+
+  <!-- Main AI Script -->
+  <script src="script.js"></script>
+</body>
+</html>
+
+<div id="notifications" class="notification-container"></div>
