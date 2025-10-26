@@ -348,84 +348,42 @@ async function sendMessage() {
   appendMessage("Assistant", "Thinking...");
 
 // Determine backend URL dynamically
-  const API_BASE =
+  // 🛰️ Send to backend API
+// 🛰️ Send to backend API
+const API_BASE =
   window.location.hostname === "localhost"
     ? "http://localhost:3000"
     : "https://ai-assistant-2-wn10.onrender.com";
 
+try {
+  const response = await fetch(`${API_BASE}/chat`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message,
+      context: aiPersonality,
+      chatTitle: getCurrentChatTitle(),
+    }),
+  });
 
-// 💬 APPEND MESSAGE FUNCTION
-function appendMessage(sender, text) {
-  try {
-    if (!sender) sender = "Assistant";
-    if (!text) text = "[no message received 🤖]";
+  const data = await response.json();
+  chatBox.lastChild.remove();
 
-    const chatBox = document.getElementById("chat-box");
-    if (!chatBox) {
-      console.error("⚠️ appendMessage error: chatBox element not found.");
-      return;
-    }
-
-    const div = document.createElement("div");
-    div.classList.add("message", sender === "You" ? "user" : "assistant");
-
-    const formattedText = String(text)
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/^- (.*$)/gim, "• $1")
-      .replace(/\n/g, "<br>")
-      .replace(/(\d+)\.\s/g, "<br><strong>$1.</strong> ");
-
-    div.innerHTML = `<strong>${sender}:</strong> ${formattedText}`;
-    chatBox.appendChild(div);
-    chatBox.scrollTop = chatBox.scrollHeight;
-  } catch (err) {
-    console.error("⚠️ appendMessage error:", err);
+  if (!data || !data.reply) {
+    appendMessage("Assistant", "⚠️ No response received from server.");
+    return;
   }
+
+  appendMessage("Assistant", data.reply);
+  saveMessage("Assistant", data.reply);
+  addToContext({ sender: "Assistant", message: data.reply });
+
+} catch (error) {
+  console.error("❌ Backend error:", error);
+  chatBox.lastChild.remove();
+  appendMessage("Assistant", "⚠️ Error: Couldn't connect to the server.");
 }
 
-// ================================
-// 🚀 MAIN CHAT HANDLER
-// ================================
-async function sendMessage() {
-  const input = document.getElementById("chat-input");
-  const message = input.value.trim();
-  if (!message) return;
-
-  appendMessage("You", message);
-  input.value = "";
-
-  try {
-const response = await fetch(`${API_BASE}/chat`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    message,
-    context: aiPersonality,
-    chatTitle: getCurrentChatTitle(),
-  }),
-});
-
-
-
-    if (!response.ok) {
-      console.error("⚠️ Server error:", response.statusText);
-      appendMessage("Assistant", "⚠️ Server error, please try again later.");
-      return;
-    }
-
-    const data = await response.json();
-    if (!data.reply) {
-      appendMessage("Assistant", "⚠️ No response from server.");
-      return;
-    }
-
-    appendMessage("Assistant", data.reply);
-  } catch (error) {
-    console.error("❌ Backend error:", error);
-    appendMessage("Assistant", "⚠️ Error: Couldn't connect to the server.");
-  }
-}
 
 // 🎯 EVENT LISTENER
 const sendButton = document.getElementById("send-btn");
