@@ -577,3 +577,4 @@ function showNotification(message, type = "success") {
     setTimeout(() => note.remove(), 400);
   }, 3500);
 }
+}
