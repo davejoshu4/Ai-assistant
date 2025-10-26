@@ -347,20 +347,12 @@ async function sendMessage() {
   // 🌐 Send to backend
   appendMessage("Assistant", "Thinking...");
 
-// Determine API base URL dynamically (works locally & on Render)
-
 // Determine backend URL dynamically
-// ================================
-// 🌐 CONFIGURATION
-// ================================
-const API_BASE =
   window.location.hostname === "localhost"
     ? "http://localhost:3000"
     : "https://ai-assistant-2-wn10.onrender.com";
 
-// ================================
 // 💬 APPEND MESSAGE FUNCTION
-// ================================
 function appendMessage(sender, text) {
   try {
     if (!sender) sender = "Assistant";
