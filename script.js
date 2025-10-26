@@ -356,7 +356,7 @@ async function sendMessage() {
 const API_BASE =
   window.location.hostname === "localhost"
     ? "http://localhost:3000"
-    : "https://ai-assistant-1-w91p.onrender.com";
+    : "https://ai-assistant-2-wn10.onrender.com";
 
 // ================================
 // 💬 APPEND MESSAGE FUNCTION
@@ -402,15 +402,16 @@ async function sendMessage() {
   input.value = "";
 
   try {
-    const response = await fetch(`${API_BASE}/chat`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message,
-        context: aiPersonality,
-        chatTitle: getCurrentChatTitle(),
-      }),
-    });
+  const response = await fetch(`${API_BASE}/chat`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    message,
+    context: aiPersonality,
+    chatTitle: getCurrentChatTitle(),
+  }),
+});
+
 
     if (!response.ok) {
       console.error("⚠️ Server error:", response.statusText);

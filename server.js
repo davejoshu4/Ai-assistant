@@ -125,6 +125,10 @@ app.post("/reset-memory", (req, res) => {
   }
 });
 
+
 // ✅ Start server (for Render, Vercel, or local)
+console.log("✅ Render environment detected, starting server...");
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 JDG AI Server running on port ${PORT}`));
+
