@@ -350,46 +350,99 @@ async function sendMessage() {
 // Determine API base URL dynamically (works locally & on Render)
 
 // Determine backend URL dynamically
-try {
-  const API_BASE =
-    window.location.hostname === "localhost"
-      ? "http://localhost:3000"
-      : "https://ai-assistant-1-w91p.onrender.com";
+// ================================
+// 🌐 CONFIGURATION
+// ================================
+const API_BASE =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3000"
+    : "https://ai-assistant-1-w91p.onrender.com";
 
-  const response = await fetch(`${API_BASE}/chat`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      message,
-      context: aiPersonality,
-      chatTitle: getCurrentChatTitle(),
-    }),
-  });
+// ================================
+// 💬 APPEND MESSAGE FUNCTION
+// ================================
+function appendMessage(sender, text) {
+  try {
+    if (!sender) sender = "Assistant";
+    if (!text) text = "[no message received 🤖]";
 
-  const data = await response.json();
-  chatBox.lastChild.remove();
+    const chatBox = document.getElementById("chat-box");
+    if (!chatBox) {
+      console.error("⚠️ appendMessage error: chatBox element not found.");
+      return;
+    }
 
-  if (!data || !data.reply) {
-    appendMessage("Assistant", "⚠️ No response received from server.");
-    return;
+    const div = document.createElement("div");
+    div.classList.add("message", sender === "You" ? "user" : "assistant");
+
+    const formattedText = String(text)
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      .replace(/^- (.*$)/gim, "• $1")
+      .replace(/\n/g, "<br>")
+      .replace(/(\d+)\.\s/g, "<br><strong>$1.</strong> ");
+
+    div.innerHTML = `<strong>${sender}:</strong> ${formattedText}`;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  } catch (err) {
+    console.error("⚠️ appendMessage error:", err);
   }
-
-  appendMessage("Assistant", getMoodPrefix(aiPersonality.mood) + data.reply);
-  saveMessage("Assistant", data.reply);
-  addToContext({ sender: "Assistant", message: data.reply });
-
-  if (data.topicTitle && currentChatId) {
-    updateChatTitle(currentChatId, data.topicTitle);
-    renderChatList();
-    console.log("🌸 Updated chat title:", data.topicTitle);
-  }
-
-} catch (error) {
-  console.error("❌ Backend error:", error);
-  chatBox.lastChild.remove();
-  appendMessage("Assistant", "⚠️ Error: Couldn’t connect to the server.");
 }
 
+// ================================
+// 🚀 MAIN CHAT HANDLER
+// ================================
+async function sendMessage() {
+  const input = document.getElementById("chat-input");
+  const message = input.value.trim();
+  if (!message) return;
+
+  appendMessage("You", message);
+  input.value = "";
+
+  try {
+    const response = await fetch(`${API_BASE}/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message,
+        context: aiPersonality,
+        chatTitle: getCurrentChatTitle(),
+      }),
+    });
+
+    if (!response.ok) {
+      console.error("⚠️ Server error:", response.statusText);
+      appendMessage("Assistant", "⚠️ Server error, please try again later.");
+      return;
+    }
+
+    const data = await response.json();
+    if (!data.reply) {
+      appendMessage("Assistant", "⚠️ No response from server.");
+      return;
+    }
+
+    appendMessage("Assistant", data.reply);
+  } catch (error) {
+    console.error("❌ Backend error:", error);
+    appendMessage("Assistant", "⚠️ Error: Couldn't connect to the server.");
+  }
+}
+
+// 🎯 EVENT LISTENER
+const sendButton = document.getElementById("send-btn");
+if (sendButton) {
+  sendButton.addEventListener("click", sendMessage);
+}
+
+const inputField = document.getElementById("chat-input");
+if (inputField) {
+  inputField.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendMessage();
+  });
+}
 
 // 💬 Append Message
 // ✅ Make sure this is defined BEFORE it's used anywhere in script.js
@@ -418,7 +471,7 @@ function appendMessage(sender, text) {
       .replace(/\n/g, "<br>") // newlines
       .replace(/(\d+)\.\s/g, "<br><strong>$1.</strong> "); // numbered list
 
-    // render message
+    // render message 
     div.innerHTML = `<strong>${sender}:</strong> ${formattedText}`;
     chatBox.appendChild(div);
 
