@@ -125,9 +125,13 @@ app.post("/reset-memory", (req, res) => {
   }
 });
 
+// ✅ Simple test route for Render connection
+app.get("/test", (req, res) => {
+  res.json({ message: "✅ JDG AI backend is live and working!" });
+});
 
-// ✅ Start server (for Render, Vercel, or local)
-console.log("✅ Render environment detected, starting server...");
+// ✅ Start server (Render, Vercel, or local)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 JDG AI Server running on port ${PORT}`));
 
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, "0.0.0.0", () => console.log(`🚀 JDG AI Server running on port ${PORT}`));
+

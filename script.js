@@ -348,9 +348,11 @@ async function sendMessage() {
   appendMessage("Assistant", "Thinking...");
 
 // Determine backend URL dynamically
+  const API_BASE =
   window.location.hostname === "localhost"
     ? "http://localhost:3000"
     : "https://ai-assistant-2-wn10.onrender.com";
+
 
 // 💬 APPEND MESSAGE FUNCTION
 function appendMessage(sender, text) {
@@ -394,7 +396,7 @@ async function sendMessage() {
   input.value = "";
 
   try {
-  const response = await fetch(`${API_BASE}/chat`, {
+const response = await fetch(`${API_BASE}/chat`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
@@ -403,6 +405,7 @@ async function sendMessage() {
     chatTitle: getCurrentChatTitle(),
   }),
 });
+
 
 
     if (!response.ok) {
