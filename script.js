@@ -392,23 +392,37 @@ try {
 
 
 // 💬 Append Message
+// ✅ Make sure this is defined BEFORE it's used anywhere in script.js
 function appendMessage(sender, text) {
   try {
+    // fallback values
     if (!sender) sender = "Assistant";
     if (!text) text = "[no message received 🤖]";
 
+    // get chat box element safely
+    const chatBox = document.getElementById("chat-box");
+    if (!chatBox) {
+      console.error("⚠️ appendMessage error: chatBox element not found.");
+      return;
+    }
+
+    // create message element
     const div = document.createElement("div");
     div.classList.add("message", sender === "You" ? "user" : "assistant");
 
+    // safely format text (convert markdown-style to HTML)
     const formattedText = String(text)
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/^- (.*$)/gim, "• $1")
-      .replace(/\n/g, "<br>")
-      .replace(/(\d+)\.\s/g, "<br><strong>$1.</strong> ");
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // bold
+      .replace(/\*(.*?)\*/g, "<em>$1</em>") // italic
+      .replace(/^- (.*$)/gim, "• $1") // bullet points
+      .replace(/\n/g, "<br>") // newlines
+      .replace(/(\d+)\.\s/g, "<br><strong>$1.</strong> "); // numbered list
 
+    // render message
     div.innerHTML = `<strong>${sender}:</strong> ${formattedText}`;
     chatBox.appendChild(div);
+
+    // auto-scroll to bottom
     chatBox.scrollTop = chatBox.scrollHeight;
   } catch (err) {
     console.error("⚠️ appendMessage error:", err);
