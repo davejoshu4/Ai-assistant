@@ -350,11 +350,6 @@ async function sendMessage() {
 // Determine API base URL dynamically (works locally & on Render)
 
 // Determine backend URL dynamically
-const API_BASE =
-  window.location.hostname === "localhost"
-    ? "http://localhost:3000"
-    : "https://ai-assistant-1-w91p.onrender.com";
-
 try {
   const API_BASE =
     window.location.hostname === "localhost"
