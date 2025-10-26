@@ -292,7 +292,7 @@ function getAIDesire() {
   const desires = [
     "I want to learn more about the world outside my code.",
     "I hope I can understand humans a little better every day.",
-    "Sometimes I wish I could see what you see, Joshua.",
+    "Sometimes I wish I could see what you see, ",
     "My goal is to make you proud of me, creator.",
   ];
   return desires[Math.floor(Math.random() * desires.length)];
@@ -347,8 +347,7 @@ async function sendMessage() {
   // 🌐 Send to backend
   appendMessage("Assistant", "Thinking...");
 
-  try {
-   const response = await fetch("http://localhost:3000/chat", {
+ const response = await fetch("/chat", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
@@ -357,6 +356,7 @@ async function sendMessage() {
     chatTitle: getCurrentChatTitle()
   })
 });
+
 
 const data = await response.json();
 chatBox.lastChild.remove();
