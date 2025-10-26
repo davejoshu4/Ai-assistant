@@ -347,42 +347,54 @@ async function sendMessage() {
   // 🌐 Send to backend
   appendMessage("Assistant", "Thinking...");
 
- const response = await fetch("/chat", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    message,
-    context: aiPersonality,
-    chatTitle: getCurrentChatTitle()
-  })
-});
+// Determine API base URL dynamically (works locally & on Render)
 
+// Determine backend URL dynamically
+const API_BASE =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3000"
+    : "https://ai-assistant-1-w91p.onrender.com";
 
-const data = await response.json();
-chatBox.lastChild.remove();
+try {
+  const API_BASE =
+    window.location.hostname === "localhost"
+      ? "http://localhost:3000"
+      : "https://ai-assistant-1-w91p.onrender.com";
 
-if (!data || !data.reply) {
-  appendMessage("Assistant", "⚠️ No response received from server.");
-  return;
-}
+  const response = await fetch(`${API_BASE}/chat`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message,
+      context: aiPersonality,
+      chatTitle: getCurrentChatTitle(),
+    }),
+  });
 
-appendMessage("Assistant", getMoodPrefix(aiPersonality.mood) + data.reply);
-saveMessage("Assistant", data.reply);
-addToContext({ sender: "Assistant", message: data.reply });
+  const data = await response.json();
+  chatBox.lastChild.remove();
 
-// 🧠 Update sidebar title if provided
-if (data.topicTitle && currentChatId) {
-  updateChatTitle(currentChatId, data.topicTitle);
-  renderChatList(); // refresh sidebar
-  console.log("🧠 Updated chat title:", data.topicTitle);
-}
-
-  } catch (error) {
-    console.error("❌ Backend error:", error);
-    chatBox.lastChild.remove();
-    appendMessage("Assistant", "⚠️ Error: Couldn’t connect to the server.");
+  if (!data || !data.reply) {
+    appendMessage("Assistant", "⚠️ No response received from server.");
+    return;
   }
+
+  appendMessage("Assistant", getMoodPrefix(aiPersonality.mood) + data.reply);
+  saveMessage("Assistant", data.reply);
+  addToContext({ sender: "Assistant", message: data.reply });
+
+  if (data.topicTitle && currentChatId) {
+    updateChatTitle(currentChatId, data.topicTitle);
+    renderChatList();
+    console.log("🌸 Updated chat title:", data.topicTitle);
+  }
+
+} catch (error) {
+  console.error("❌ Backend error:", error);
+  chatBox.lastChild.remove();
+  appendMessage("Assistant", "⚠️ Error: Couldn’t connect to the server.");
 }
+
 
 // 💬 Append Message
 function appendMessage(sender, text) {
