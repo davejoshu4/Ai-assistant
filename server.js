@@ -8,7 +8,14 @@ import { fileURLToPath } from "url";
 
 dotenv.config();
 const app = express();
-app.use(cors());
+
+// ✅ Correct single CORS setup
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"],
+}));
+
 app.use(express.json());
 
 // ✅ Paths for local files
